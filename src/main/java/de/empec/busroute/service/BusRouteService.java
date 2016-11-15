@@ -11,7 +11,7 @@ public class BusRouteService {
 
     public boolean isDirect(int depSid, int arrSid) {
         boolean result = true;
-        LOG.debug("isDirect dep={}, arr={} -> {}", depSid, arrSid, result);
+        LOG.info("isDirect dep={}, arr={} -> {}", depSid, arrSid, result);
         return result;
     }
 }
