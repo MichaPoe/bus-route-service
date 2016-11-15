@@ -1,0 +1,27 @@
+######################################
+# maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+######################################
+# IDE project files
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, Eclipse
+**/*.iml
+# Directory-based project format:
+**/.idea/
+**/.settings
+**/.classpath
+**/.project
+
+######################################
+# Package Files #
+*.jar
+*.war
+*.ear
