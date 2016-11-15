@@ -8,6 +8,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.DefaultApplicationArguments;
 
+import java.io.File;
+import java.net.URL;
+
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -32,7 +35,9 @@ public class CommandLineProcessorTest {
 
     @Test
     public void processesWithArg() throws Exception {
-        ApplicationArguments args = new DefaultApplicationArguments(new String[]{"file.brd"});
+        URL resource = this.getClass().getClassLoader().getResource("valid.brd");
+        File file = new File(resource.toURI());
+        ApplicationArguments args = new DefaultApplicationArguments(new String[]{file.getAbsolutePath()});
 
         sut.run(args);
 
