@@ -71,10 +71,16 @@ public class BusRouteFileReader {
             LOG.debug("  {}", stationId);
             stationIds.add(stationId);
         }
+
         if (stationIds.size() < 2) {
-            LOG.warn("not at least two stations for route: {}", routeLine);
+            LOG.warn("not at least two stations for route: {} (skipping)", routeLine);
         } else {
-            routeIdsForStationId.put(busRouteId, stationIds);
+            stationIds.forEach(i -> {
+                if (!routeIdsForStationId.containsKey(i)) {
+                    routeIdsForStationId.put(i, Sets.newHashSet());
+                }
+                routeIdsForStationId.get(i).add(busRouteId);
+            });
         }
     }
 

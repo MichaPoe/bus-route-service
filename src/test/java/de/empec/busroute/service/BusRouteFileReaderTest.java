@@ -16,37 +16,45 @@ public class BusRouteFileReaderTest {
     @Test
     public void canProcessValidFile() throws URISyntaxException {
         BusRouteFileReader sut = createSut("valid.brd");
-        assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(3));
+        assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(4));
         assertThat(sut.getRouteIdsForStationId().get(0), hasSize(3));
         assertThat(sut.getRouteIdsForStationId().get(0), hasItems(0, 1, 2));
-        assertThat(sut.getRouteIdsForStationId().get(1), hasSize(3));
-        assertThat(sut.getRouteIdsForStationId().get(1), hasItems(3, 1, 6));
-        assertThat(sut.getRouteIdsForStationId().get(2), hasSize(3));
-        assertThat(sut.getRouteIdsForStationId().get(2), hasItems(0, 6, 4));
+        assertThat(sut.getRouteIdsForStationId().get(1), hasSize(2));
+        assertThat(sut.getRouteIdsForStationId().get(1), hasItems(0, 1));
+        assertThat(sut.getRouteIdsForStationId().get(2), hasSize(2));
+        assertThat(sut.getRouteIdsForStationId().get(2), hasItems(1, 2));
+        assertThat(sut.getRouteIdsForStationId().get(3), hasSize(1));
+        assertThat(sut.getRouteIdsForStationId().get(3), hasItems(2));
     }
 
     @Test
     public void canProcessEvenWithWrongNumberOfRoutes() throws URISyntaxException {
         BusRouteFileReader sut = createSut("invalidWrongNumberOfRoutes.brd");
-        assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(1));
-        assertThat(sut.getRouteIdsForStationId().get(0), hasSize(5));
-        assertThat(sut.getRouteIdsForStationId().get(0), hasItems(0, 1, 2, 3, 4));
+        assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(2));
+        assertThat(sut.getRouteIdsForStationId().get(0), hasSize(1));
+        assertThat(sut.getRouteIdsForStationId().get(0), hasItems(0));
+        assertThat(sut.getRouteIdsForStationId().get(1), hasSize(1));
+        assertThat(sut.getRouteIdsForStationId().get(1), hasItems(0));
     }
 
     @Test
     public void simplyStopsAtFirstNonInteger() throws URISyntaxException {
         BusRouteFileReader sut = createSut("invalidNoInteger.brd");
-        assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(1));
-        assertThat(sut.getRouteIdsForStationId().get(0), hasSize(2));
-        assertThat(sut.getRouteIdsForStationId().get(0), hasItems(0, 1));
+        assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(2));
+        assertThat(sut.getRouteIdsForStationId().get(0), hasSize(1));
+        assertThat(sut.getRouteIdsForStationId().get(0), hasItems(0));
+        assertThat(sut.getRouteIdsForStationId().get(1), hasSize(1));
+        assertThat(sut.getRouteIdsForStationId().get(1), hasItems(0));
     }
 
     @Test
     public void simplySkipsRoutesWithNotEnoughStations() throws URISyntaxException {
         BusRouteFileReader sut = createSut("notEnoughStations.brd");
-        assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(1));
-        assertThat(sut.getRouteIdsForStationId().get(0), hasSize(2));
-        assertThat(sut.getRouteIdsForStationId().get(0), hasItems(1, 2));
+        assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(2));
+        assertThat(sut.getRouteIdsForStationId().get(1), hasSize(1));
+        assertThat(sut.getRouteIdsForStationId().get(1), hasItems(0));
+        assertThat(sut.getRouteIdsForStationId().get(2), hasSize(1));
+        assertThat(sut.getRouteIdsForStationId().get(2), hasItems(0));
     }
 
     private BusRouteFileReader createSut(String fileName) throws URISyntaxException {
