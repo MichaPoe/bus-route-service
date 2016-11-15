@@ -2,6 +2,7 @@ package de.empec.busroute.service;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -14,8 +15,7 @@ public class BusRouteFileReaderTest {
 
     @Test
     public void canProcessValidFile() throws URISyntaxException {
-        URL resource = this.getClass().getClassLoader().getResource("valid.brd");
-        BusRouteFileReader sut = new BusRouteFileReader(Paths.get(resource.toURI()));
+        BusRouteFileReader sut = createSut("valid.brd");
         assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(3));
         assertThat(sut.getRouteIdsForStationId().get(0), hasSize(3));
         assertThat(sut.getRouteIdsForStationId().get(0), hasItems(0, 1, 2));
@@ -27,8 +27,7 @@ public class BusRouteFileReaderTest {
 
     @Test
     public void canProcessEvenWithWrongNumberOfRoutes() throws URISyntaxException {
-        URL resource = this.getClass().getClassLoader().getResource("invalidWrongNumberOfRoutes.brd");
-        BusRouteFileReader sut = new BusRouteFileReader(Paths.get(resource.toURI()));
+        BusRouteFileReader sut = createSut("invalidWrongNumberOfRoutes.brd");
         assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(1));
         assertThat(sut.getRouteIdsForStationId().get(0), hasSize(5));
         assertThat(sut.getRouteIdsForStationId().get(0), hasItems(0, 1, 2, 3, 4));
@@ -36,8 +35,7 @@ public class BusRouteFileReaderTest {
 
     @Test
     public void simplyStopsAtFirstNonInteger() throws URISyntaxException {
-        URL resource = this.getClass().getClassLoader().getResource("invalidNoInteger.brd");
-        BusRouteFileReader sut = new BusRouteFileReader(Paths.get(resource.toURI()));
+        BusRouteFileReader sut = createSut("invalidNoInteger.brd");
         assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(1));
         assertThat(sut.getRouteIdsForStationId().get(0), hasSize(2));
         assertThat(sut.getRouteIdsForStationId().get(0), hasItems(0, 1));
@@ -45,10 +43,15 @@ public class BusRouteFileReaderTest {
 
     @Test
     public void simplySkipsRoutesWithNotEnoughStations() throws URISyntaxException {
-        URL resource = this.getClass().getClassLoader().getResource("notEnoughStations.brd");
-        BusRouteFileReader sut = new BusRouteFileReader(Paths.get(resource.toURI()));
+        BusRouteFileReader sut = createSut("notEnoughStations.brd");
         assertThat(sut.getRouteIdsForStationId().keySet(), hasSize(1));
         assertThat(sut.getRouteIdsForStationId().get(0), hasSize(2));
         assertThat(sut.getRouteIdsForStationId().get(0), hasItems(1, 2));
+    }
+
+    private BusRouteFileReader createSut(String fileName) throws URISyntaxException {
+        URL resource = this.getClass().getClassLoader().getResource(fileName);
+        File file = new File(resource.toURI());
+        return new BusRouteFileReader(Paths.get(file.getAbsolutePath()));
     }
 }

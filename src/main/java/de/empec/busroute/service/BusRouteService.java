@@ -9,6 +9,8 @@ public class BusRouteService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BusRouteService.class);
 
+    // ToDo use repo
+
     public boolean isDirect(int depSid, int arrSid) {
         boolean result = true;
         LOG.info("isDirect dep={}, arr={} -> {}", depSid, arrSid, result);
